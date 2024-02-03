@@ -1,0 +1,4 @@
+name: BotTeleport
+version: '${project.version}'
+main: org.ncc.github.botteleport.BotTeleport
+api-version: '1.20'
