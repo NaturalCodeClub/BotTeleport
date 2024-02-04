@@ -2,24 +2,45 @@ package org.ncc.github.botteleport.command
 
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
-import top.leavesmc.leaves.entity.BotManager
+import top.leavesmc.leaves.entity.Bot
 
-class commandBotTp : CommandExecutor{
-    override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>?): Boolean {
-        if (p0 !is Player){
-            p0.sendMessage("您不是一个玩家")
+class commandBotTp : TabExecutor {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        str: String,
+        args: Array<out String>?
+    ): MutableList<String>? {
+        val t: MutableList<String> = mutableListOf()
+        Bukkit.getBotManager().bots.forEach { bot ->
+            bot.player?.let { t.add(it.name) }
+        }
+        return t
+    }
+
+    override fun onCommand(sender: CommandSender, command: Command, p2: String, args: Array<out String>?): Boolean {
+        if (sender !is Player) {
+            sender.sendMessage("您不是一个玩家")
             return false
         }
-        if (p3!!.size!=2){
-            p0.sendMessage("指令使用方法有误")
+        if (args!!.size != 2) {
+            sender.sendMessage("指令使用方法有误")
             return false
         }
         //上述判断阻止非法的指令使用方法导致插件出现问题
-        val s:String = p3[1]
+        val s: String = args[1]
+        val b: Bot? = Bukkit.getBotManager().getBot(s)
+        if (b == null) {
+            sender.sendMessage("机器人不存在")
+            return false
+        }
 
+        b.teleport(sender)
+
+        sender.sendMessage("传送成功")
         return true
     }
 

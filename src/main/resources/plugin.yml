@@ -2,3 +2,8 @@ name: BotTeleport
 version: '${project.version}'
 main: org.ncc.github.botteleport.BotTeleport
 api-version: '1.20'
+commands:
+  bottp:
+    description: A command to teleport Bot to the Command Sender
+    permission: bukkit.command.bot
+    usage: /bottp <BotName>
