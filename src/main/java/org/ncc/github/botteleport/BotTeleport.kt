@@ -13,13 +13,14 @@ class BotTeleport : JavaPlugin() {
     private var configVer = 1
 
     companion object {
-        lateinit var l: Logger
-        lateinit var mistakeStr: String
-        lateinit var successStr: String
-        lateinit var nopermissionStr: String
-        lateinit var notPlayerStr: String
-        lateinit var reloadMsgStr: String
-        lateinit var notExistStr: String
+        var l: Logger? = null
+        var mistakeStr: String? = null
+        var successStr: String? = null
+        var nopermissionStr: String? = null
+        var notPlayerStr: String? = null
+        var notSameWorldStr: String? = null
+        var reloadMsgStr: String? = null
+        var notExistStr: String? = null
 
         var plugin: JavaPlugin? = null
         fun configReload(s: String): String {
@@ -35,6 +36,7 @@ class BotTeleport : JavaPlugin() {
             if (f.getString("mistake") != null) mistakeStr = f.getString("mistake")!!
             if (f.getString("success") != null) successStr = f.getString("success")!!
             if (f.getString("notplayer") != null) notPlayerStr = f.getString("notplayer")!!
+            if (f.getString("notsameworld") != null) notSameWorldStr = f.getString("notsameworld")!!
             if (f.getString("notexist") != null) notExistStr = f.getString("notexist")!!
             if (f.getString("nopermission") != null) nopermissionStr = f.getString("nopermission")!!
             if (f.getString("reloadMsg") != null) reloadMsgStr = f.getString("reloadMsg")!!
@@ -42,9 +44,9 @@ class BotTeleport : JavaPlugin() {
     }
 
     override fun onEnable() {
-        l.info("BotTeleport plugin enabling")
         plugin = this
         l = plugin!!.logger
+        l!!.info("BotTeleport plugin enabling")
         checkConfig(config, plugin!!)
         loadConfig(config, plugin!!)
         getCommand("bottp")?.setExecutor(commandBotTp())
@@ -53,7 +55,7 @@ class BotTeleport : JavaPlugin() {
     }
 
     override fun onDisable() {
-        l.info("BotTeleport plugin disabling")
+        l!!.info("BotTeleport plugin disabling")
         saveConfig()
         getCommand("bottp")?.setExecutor(null)
     }
@@ -75,6 +77,10 @@ class BotTeleport : JavaPlugin() {
         if (f.get("mistake") == null) f.set("mistake", "指令使用方法有误")
         if (f.get("success") == null) f.set("success", "假人传送成功")
         if (f.get("notplayer") == null) f.set("notplayer", "您不是一个玩家")
+        if (f.get("notsameworld") == null) f.set(
+            "notsameworld",
+            "您与机器人不在同一个维度，该指令只能传送同一维度的假人到您身边"
+        )
         if (f.get("notexist") == null) f.set("notexist", "机器人不存在")
         if (f.get("nopermission") == null) f.set("notpermission", "你没有权限")
         if (f.get("reloadMsg") == null) f.set("reloadMsg", "重载配置文件成功")
