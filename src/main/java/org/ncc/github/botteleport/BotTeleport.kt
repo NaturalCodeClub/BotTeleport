@@ -10,8 +10,7 @@ import java.util.logging.Logger
 class BotTeleport : JavaPlugin() {
 
 
-    var config: FileConfiguration? = null
-    var configVer = 1
+    private var configVer = 1
 
     companion object {
         lateinit var l: Logger
@@ -44,11 +43,10 @@ class BotTeleport : JavaPlugin() {
 
     override fun onEnable() {
         l.info("BotTeleport plugin enabling")
-        plugin = getPlugin(this)
-        config = getConfig()
+        plugin = this
         l = plugin!!.logger
-        checkConfig(config!!, plugin!!)
-        loadConfig(config!!, plugin!!)
+        checkConfig(config, plugin!!)
+        loadConfig(config, plugin!!)
         getCommand("bottp")?.setExecutor(commandBotTp())
         getCommand("bottp")?.tabCompleter = commandBotTp()
 
@@ -58,10 +56,6 @@ class BotTeleport : JavaPlugin() {
         l.info("BotTeleport plugin disabling")
         saveConfig()
         getCommand("bottp")?.setExecutor(null)
-    }
-
-    private fun getPlugin(plugin: JavaPlugin): JavaPlugin {
-        return plugin
     }
 
 
