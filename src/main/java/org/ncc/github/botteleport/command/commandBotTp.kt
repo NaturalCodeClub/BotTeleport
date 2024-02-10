@@ -14,6 +14,7 @@ import org.ncc.github.botteleport.BotTeleport.Companion.notPlayerStr
 import org.ncc.github.botteleport.BotTeleport.Companion.notSameWorldStr
 import org.ncc.github.botteleport.BotTeleport.Companion.reloadMsgStr
 import org.ncc.github.botteleport.BotTeleport.Companion.successStr
+import org.ncc.github.botteleport.BotTeleport.Companion.tabIncorrectStr
 import top.leavesmc.leaves.entity.Bot
 
 class commandBotTp : TabExecutor {
@@ -24,6 +25,10 @@ class commandBotTp : TabExecutor {
         args: Array<out String>?
     ): MutableList<String>? {
         val t: MutableList<String> = mutableListOf()
+        if (args?.size != 1) {
+            t.add(tabIncorrectStr!!)
+            return t
+        }
         Bukkit.getBotManager().bots.forEach { bot ->
             bot.player?.let { t.add(it.name) }
         }

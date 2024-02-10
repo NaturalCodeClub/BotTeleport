@@ -16,6 +16,7 @@ class BotTeleport : JavaPlugin() {
         var l: Logger? = null
         var mistakeStr: String? = null
         var successStr: String? = null
+        var tabIncorrectStr: String? = null
         var nopermissionStr: String? = null
         var notPlayerStr: String? = null
         var notSameWorldStr: String? = null
@@ -35,6 +36,7 @@ class BotTeleport : JavaPlugin() {
         ) {
             if (f.getString("mistake") != null) mistakeStr = f.getString("mistake")!!
             if (f.getString("success") != null) successStr = f.getString("success")!!
+            if (f.getString("tabincorrect") != null) tabIncorrectStr = f.getString("tabincorrect")
             if (f.getString("notplayer") != null) notPlayerStr = f.getString("notplayer")!!
             if (f.getString("notsameworld") != null) notSameWorldStr = f.getString("notsameworld")!!
             if (f.getString("notexist") != null) notExistStr = f.getString("notexist")!!
@@ -76,6 +78,7 @@ class BotTeleport : JavaPlugin() {
         }
         if (f.get("mistake") == null) f.set("mistake", "指令使用方法有误")
         if (f.get("success") == null) f.set("success", "假人传送成功")
+        if (f.get("tabincorrect") == null) f.set("tabincorrect", "您输太多了喵")
         if (f.get("notplayer") == null) f.set("notplayer", "您不是一个玩家")
         if (f.get("notsameworld") == null) f.set(
             "notsameworld",
